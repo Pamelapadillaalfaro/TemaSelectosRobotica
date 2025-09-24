@@ -1,0 +1,42 @@
+const int pinPWM=10;
+int cicloTrab=0;
+int incremento=5;
+int photoDiPin=7;
+int sensorvalue=0;
+int contador=0;
+int cicloFijo=0;
+
+void setup() {
+// put your setup code here, to run once:
+Serial.begin(9600);
+pinMode(pinPWM, OUTPUT);
+pinMode(photoDiPin, INPUT);
+}
+
+void loop() {
+// put your main code here, to run repeatedly
+while (contador<=10) {
+analogWrite(pinPWM, cicloTrab);
+cicloTrab=cicloTrab+incremento;
+if (cicloTrab <= 0 || cicloTrab>=255){
+incremento=-incremento;
+}
+
+sensorvalue=digitalRead(photoDiPin);
+Serial.print("CICLO DE TRABAJO: ");
+Serial.println(cicloTrab);
+Serial.print("VALOR COMPARADO: ");
+Serial.println(sensorValue);
+
+if (sensorvalue==0){
+contador=contador+1;
+}
+delay(300);
+}cicloFijo=cicloTrab;
+
+Serial.print("CICLO DE TRABAJO FINAL: ");
+Serial.println(cicloFijo);
+Serial.print("VALOR COMPARADO: ");
+Serial.println(sensorValue);
+
+}
