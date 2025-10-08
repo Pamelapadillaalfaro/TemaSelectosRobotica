@@ -54,10 +54,10 @@ void loop() {
 int turnFunction(String instruct){
     
     if (instruct.indexOf("left") >= 0 ) {
-      return 1;
+      return 0;
     }
     else if(instruct.indexOf("rigth") >= 0 ) {
-      return 0;
+      return 1;
     }
   }
   
