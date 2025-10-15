@@ -1,20 +1,20 @@
 // Definición de pines de control para el L293D
 // Asignamos pines digitales del Arduino a las entradas de control (INPUTs)
 const int IN1 = 13; // Pin de control 1 del Motor 1 (L293D Pin 2)
-const int IN2 = 6; // Pin de control 2 del Motor 1 (L293D Pin 7)
+//const int IN2 = 6; // Pin de control 2 del Motor 1 (L293D Pin 7)
 const int IN3 = 12; // Pin de control 1 del Motor 2 (L293D Pin 10)
-const int IN4 = 5; // Pin de control 2 del Motor 2 (L293D Pin 15)
+//const int IN4 = 5; // Pin de control 2 del Motor 2 (L293D Pin 15)
 
 // Pines de Habilitación (ENABLEs) - Para el ejercicio 2, se mantienen en HIGH para usar solo 4 señales de dirección.
-const int EN1 = 10; // Pin Enable Motor 1 (L293D Pin 1)
-const int EN2 = 11; // Pin Enable Motor 2 (L293D Pin 9)
+const int EN1 = 11; // Pin Enable Motor 1 (L293D Pin 1)
+const int EN2 = 10; // Pin Enable Motor 2 (L293D Pin 9)
 
 void setup() {
   // Configurar los pines de control como salidas
   pinMode(IN1, OUTPUT);
-  pinMode(IN2, OUTPUT);
+  //pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT);
-  pinMode(IN4, OUTPUT);
+  //pinMode(IN4, OUTPUT);
 
   // Configurar los pines de Enable como salidas
   pinMode(EN1, OUTPUT);
@@ -51,18 +51,18 @@ void controlMotor1(String command) {
   if (command.endsWith("on left")) {
     // Girar a la izquierda
     digitalWrite(IN1, LOW);
-    digitalWrite(IN2, HIGH);
+    digitalWrite(EN1, HIGH);
     Serial.println("Motor 1: Girando a la izquierda");
   } else if (command.endsWith("on right")) {
     // Girar a la derecha
     digitalWrite(IN1, HIGH);
-    digitalWrite(IN2, LOW);
+    digitalWrite(EN1, HIGH);
     Serial.println("Motor 1: Girando a la derecha");
   } else if (command.endsWith("off")) {
     // Apagar (frenar)
     // Poner ambas entradas en LOW detiene el motor (ya que EN1 está en HIGH)
     digitalWrite(IN1, LOW);
-    digitalWrite(IN2, LOW);
+    digitalWrite(EN1, LOW);
     Serial.println("Motor 1: Detenido (Off)");
   } else {
     Serial.println("Comando A1 no reconocido. Use 'on left', 'on right' o 'off'.");
@@ -74,17 +74,17 @@ void controlMotor2(String command) {
   if (command.endsWith("on left")) {
     // Girar a la izquierda
     digitalWrite(IN3, HIGH); // Nota: Cambiar HIGH/LOW puede invertir el sentido 'left'/'right' real
-    digitalWrite(IN4, LOW);
+    digitalWrite(EN2, HIGH);
     Serial.println("Motor 2: Girando a la izquierda");
   } else if (command.endsWith("on right")) {
     // Girar a la derecha
     digitalWrite(IN3, LOW);
-    digitalWrite(IN4, HIGH);
+    digitalWrite(EN2, HIGH);
     Serial.println("Motor 2: Girando a la derecha");
   } else if (command.endsWith("off")) {
     // Apagar (frenar)
     digitalWrite(IN3, LOW);
-    digitalWrite(IN4, LOW);
+    digitalWrite(EN2, LOW);
     Serial.println("Motor 2: Detenido (Off)");
   } else {
     Serial.println("Comando A2 no reconocido. Use 'on left', 'on right' o 'off'.");
