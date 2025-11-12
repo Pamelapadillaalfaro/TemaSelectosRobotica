@@ -100,7 +100,7 @@ void calibratePWM(){
         PWM1 = PWM1 + dif;
         PWM2 = PWM2 - dif;
     }
-  }while(abs(count1 - count2) < 2);
+  }while(abs(count1 - count2) < 4);
   }
 
 // ----- control de motores -----
