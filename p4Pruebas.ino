@@ -19,16 +19,16 @@ const int EN2 = 5;     // Pin Enable Motor 2 (L293D Pin 9)
 const int ENC1 = 2;
 const int ENC2 = 3;
 // Pines sensores
-const int infra1 = A1;
-const int infra2 = A2;
-const int infra3 = A3;
+const int infra1 = A3;
+const int infra2 = A4;
+const int infra3 = A5;
 const int contact1 =4;
 const int contact2 =7;
 
 
 const int speedT = 150; //Turn speed
-int PWM1 = 180;         //PWM motor 1
-int PWM2 = 180;         //PWM motor 2
+int PWM1 = 110;         //PWM motor 1
+int PWM2 = 190;         //PWM motor 2
 
 int TimeDistance;
 int TimeDegree;
@@ -106,7 +106,7 @@ float shs(const char *sensor, int num_sensor) {
         return -1.0;
     }
     int raw = analogRead(pin);
-    x = (float)raw * (5.0 / 1023.0); // convierte a voltaje (0–5V)
+    x = map(raw, 0, 1023, 0, 255);
   }
 
   // ---------- SENSORES DE CONTACTO ----------
@@ -137,16 +137,16 @@ float shs(const char *sensor, int num_sensor) {
 void loop(){
   int estado = 0;
   float Si,Sd;
-  float AVANCE=.1;
-  float GIRO= 0.7854;
+  float AVANCE = 1;
+  float GIRO = 45;
   // Estado inicial
   estado = 0;
   // Loop infinito
   
   while(1){
     // Se leen los sensores
-    Si = shs("contact",1);
-    Sd = shs("contact",2);
+    Si = shs("infra",1);
+    Sd = shs("infra",3);
     Serial.print("Estado Presente: ");
     Serial.println(estado);
     Serial.print("Si: ");
@@ -155,8 +155,8 @@ void loop(){
     Serial.println(Sd);
     switch (estado){
       case 0: // est0
-        if (Si == 0){
-          if (Sd == 0){
+        if (Si < 100){
+          if (Sd < 100){
             estado = 0;
             ADELANTE;
             Serial.println("ADELANTE");
@@ -168,7 +168,7 @@ void loop(){
           }
         }
         else{
-          if (Sd == 0){
+          if (Sd < 100){
             estado = 3;
             ALTO;
             Serial.println("ALTO");
