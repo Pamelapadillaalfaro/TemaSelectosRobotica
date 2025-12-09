@@ -219,7 +219,7 @@ void loop() {
 
   float Si, Sd, Sm, Ci, Cd, Li, Ld, Lai, Lad;
   float AVANCE = 1;
-  float GIRO   = random(30,60);
+  float GIRO   = random(30,90);
   int estado = 0;
 
   while (1) {
@@ -243,13 +243,13 @@ void loop() {
       case 0:
         if (Ci == 1) { estado = 3; ALTO; ATRAS; break; }
         if (Cd == 1) { estado = 1; ALTO; ATRAS; break; }
-        if (Sm > 100) { estado = 5; ALTO; break; }
+        if (Sm > 150) { estado = 5; ALTO; break; }
 
-        if (Si < 100) {
-          if (Sd < 100) { estado = 12; ADELANTE; }
+        if (Si < 150) {
+          if (Sd < 150) { estado = 12; ADELANTE; }
           else          { estado = 1; ALTO; }
         } else {
-          if (Sd < 100) { estado = 3; ALTO; }
+          if (Sd < 150) { estado = 3; ALTO; }
           else          { estado = 5; ALTO; }
         }
         break;
@@ -267,15 +267,17 @@ void loop() {
       case 11: estado = 0; GIRO_DER; break;
 
       case 12:
+        //if(Li+Ld > Lai+Lad){
+          //estado = 0; ADELANTE;
+        //}
         if (Li  > Lai && Li > Lad && Li > Ld) {
           //dest = 3;
-          estado = 0; ADELANTE;
-        
+          estado = 0; GIRO_IZQ; ADELANTE;
         } 
         if (Ld  > Lai && Ld > Lad && Ld > Li) {
           //dest = 2;
           //delay(800);
-          estado = 0; ADELANTE;
+          estado = 0; GIRO_DER; ADELANTE;
         }
         if (Lai  > Ld && Lai > Lad && Lai > Li) {
           //dest = 1;
@@ -294,6 +296,46 @@ void loop() {
 }
 
 
+// =========================================================
+//                     CONTROL DE MOTORES
+// =========================================================
+void moveFront() {
+  digitalWrite(IN1, LOW);
+  analogWrite(EN1, PWM1);
+  digitalWrite(IN3, LOW);
+  analogWrite(EN2, PWM2);
+  Serial.println("Avanzando...");
+}
+
+void moveBack() {
+  digitalWrite(IN1, HIGH);
+  analogWrite(EN1, PWM1);
+  digitalWrite(IN3, HIGH);
+  analogWrite(EN2, PWM2);
+  Serial.println("Retrocediendo...");
+}
+
+void turnRight() {
+  digitalWrite(IN1, HIGH);
+  analogWrite(EN1, speedT);
+  digitalWrite(IN3, LOW);
+  analogWrite(EN2, speedT);
+  Serial.println("Giro derecha...");
+}
+
+void turnLeft() {
+  digitalWrite(IN1, LOW);
+  analogWrite(EN1, speedT);
+  digitalWrite(IN3, HIGH);
+  analogWrite(EN2, speedT);
+  Serial.println("Giro izquierda...");
+}
+
+void stopMotors() {
+  digitalWrite(EN1, LOW);
+  digitalWrite(EN2, LOW);
+  Serial.println("Parado.");
+}
 // =========================================================
 //                     CONTROL DE MOTORES
 // =========================================================
